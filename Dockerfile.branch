@@ -1,0 +1,5 @@
+# Use the lightweight Ubuntu base
+FROM ubuntu:latest
+
+# Permanently install the ping utility and Docker CLI so they survive restarts
+RUN apt-get update && apt-get install -y iputils-ping docker.io

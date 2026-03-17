@@ -17,8 +17,10 @@ services:
 
   # WHY: Create the local branch container because I need a separate machine to run the ping script
   local-branch:
-    # WHY: Use the standard Ubuntu image because I need a basic Linux environment
-    image: ubuntu:latest
+    # WHY: Build from the custom Dockerfile.branch so tools are permanently installed
+    build:
+      context: .
+      dockerfile: Dockerfile.branch
 
     # WHY: Use a specific name because random Docker names make management difficult
     container_name: kaizen-flow-local-branch

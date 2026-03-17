@@ -29,6 +29,8 @@ services:
     # WHY: Mount the script so the container can access it
     volumes:
       - "./monitor.sh:/monitor.sh"
+      # WHY: Securely expose the Docker daemon to allow auto-recovery
+      - "/var/run/docker.sock:/var/run/docker.sock"
 
     # WHY: Connect to dha-network because it must be on the same network to ping the central system
     networks:

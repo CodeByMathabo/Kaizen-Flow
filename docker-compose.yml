@@ -1,0 +1,37 @@
+version: "3.8"
+
+# WHY: Containers representing the central system and local branch in the DHA architecture
+services:
+  # WHY: Create the central database container to represent the frequently failing server
+  central-system:
+    # WHY: Build from the local Dockerfile because I need a custom Nginx web server configuration to serve the index.html file
+    build: .
+    container_name: kaizen-flow-central-system
+    ports:
+      - "8080:80"
+    # WHY: Mount the local directory because Nginx needs to serve our specific index.html file
+    volumes:
+      - "./central-system:/var/www/html"
+    networks:
+      - dha-network
+
+  # WHY: Create the local branch container because I need a separate machine to run the ping script
+  local-branch:
+    # WHY: Use the standard Ubuntu image because I need a basic Linux environment
+    image: ubuntu:latest
+
+    # WHY: Use a specific name because random Docker names make management difficult
+    container_name: kaizen-flow-local-branch
+
+    # WHY: Set tty to true because standard Ubuntu containers will shut down immediately without it
+    tty: true
+
+    # WHY: Connect to dha-network because it must be on the same network to ping the central system
+    networks:
+      - dha-network
+
+# WHY: Define the custom network for communication between containers
+networks:
+  dha-network:
+    # WHY: Use the bridge driver because it is the standard for local, isolated container networks
+    driver: bridge

@@ -26,6 +26,10 @@ services:
     # WHY: Set tty to true because standard Ubuntu containers will shut down immediately without it
     tty: true
 
+    # WHY: Mount the script so the container can access it
+    volumes:
+      - "./monitor.sh:/monitor.sh"
+
     # WHY: Connect to dha-network because it must be on the same network to ping the central system
     networks:
       - dha-network

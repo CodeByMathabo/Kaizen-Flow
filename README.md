@@ -72,11 +72,15 @@ docker stop kaizen-flow-central-system
 
 _Watch Terminal 1 as the script detects the outage, triggers the alarm, and automatically reboots the central system._
 
+**The Auto-Recovery Timeline:**
+
+1. **Detection (0-3s):** The agent pings the central database every 2 seconds. It detects the timeout almost instantly and sounds the alarm.
+2. **Execution (1-2s):** The script reaches through the Docker socket and issues a host-level reboot command to the crashed container.
+3. **Restoration (5s):** The script intentionally pauses for 5 seconds to allow the Nginx server to fully initialize before verifying the connection is back online.
 ---
 
 ### Visual Proof of the system working:
 
 Below is a real-time demonstration of the Kaizen Flow system detecting a Department of Home Affairs central system failure and autonomously executing the recovery sequence.
 
-<video src="Kaizen-Flow.mp4" controls="controls" style="max-width: 100%;">
-</video>
+https://github.com/user-attachments/assets/5c239d93-9060-41e2-8797-a220c2d44162
